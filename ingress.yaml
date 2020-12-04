@@ -1,0 +1,48 @@
+# networking.k8s.io/v1beta1 == 1.14 to 1.18
+# networking.k8s.io/v1 = 1.19+
+#ref:https://github.com/kubernetes/kubernetes/issues/90077
+# please do view docs on https://kubernetes.io/ and double check the version
+#tips
+# 1 subdomain must consist of lower case alphanumeric characters
+# 2 label must consist of lower case alphanumeric characters
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-public
+  annotations:
+    nginx.org/websocket-services: "jenkins"
+spec:
+  rules:
+  - host: "shop.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          serviceName: webapp
+          servicePort: 80
+  - host: "api.shop.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          serviceName: shop-api
+          servicePort: 5000
+  - host: "jenkins.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          serviceName: jenkins
+          servicePort: 8080    
+  - host: "mssqldb.connection"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          serviceName: mssql-db
+          servicePort: 1433     
+              
